@@ -47,3 +47,24 @@ jobs:
       run: |
         docker build --tag gcr.io/blablablalab4/simple-website:latest .
         docker push gcr.io/blablablalab4/simple-website:latest
+
+    - name: Log in to Heroku Container Registry
+      run: |
+        echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
+    - name: Build Docker image for Heroku
+      run: |
+        docker build --tag registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
+    - name: Push Docker image to Heroku
+      run: |
+        docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+
+    - name: Set Heroku stack to container
+      run: |
+        heroku stack:set container --app ${{ secrets.HEROKU_APP_NAME }}
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    - name: Release Docker image to Heroku
+      run: |
+        heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
