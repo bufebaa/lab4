@@ -45,5 +45,5 @@ jobs:
 
     - name: Build and push Docker image to GCR
       run: |
-        docker build --tag gcr.io/<your-project-id>/simple-website:latest .
-        docker push gcr.io/<your-project-id>/simple-website:latest
+        docker build --tag gcr.io/blablablalab4/simple-website:latest .
+        docker push gcr.io/blablablalab4/simple-website:latest
