@@ -1,7 +1,10 @@
 FROM nginx:alpine
 
-# Copy the website files to the default Nginx HTML directory
+# Copy the static website files to the default Nginx directory
 COPY . /usr/share/nginx/html
+
+# Create the templates directory before writing the configuration
+RUN mkdir -p /etc/nginx/templates
 
 # Use envsubst to substitute the dynamic $PORT into the Nginx configuration
 RUN echo 'server { listen 0.0.0.0:$PORT; root /usr/share/nginx/html; index index.html; }' > /etc/nginx/templates/default.conf
