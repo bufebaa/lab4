@@ -1,5 +1,9 @@
 FROM nginx:alpine
 
-COPY . /usr/share/nginx/html/
+COPY . /usr/share/nginx/html
 
-EXPOSE 80
+RUN echo "server { listen 0.0.0.0:\$PORT; root /usr/share/nginx/html; index index.html; }" > /etc/nginx/conf.d/default.conf
+
+EXPOSE $PORT
+
+CMD ["nginx", "-g", "daemon off;"]
